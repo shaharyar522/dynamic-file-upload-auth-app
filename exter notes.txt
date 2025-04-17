@@ -1,0 +1,4 @@
+
+
+/// data base name is tickting
+and table name is tickts
