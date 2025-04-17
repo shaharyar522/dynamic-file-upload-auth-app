@@ -11,38 +11,11 @@ if (!isset($_SESSION["user"])) {
   <meta charset="UTF-8">
   <title>Ticketing Dashboard</title>
   <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/update_password.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
-    #passwordModal {
-      display: none;
-      position: fixed;
-      z-index: 999;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal-content {
-      background: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      width: 300px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    }
-
-    .modal-content input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-    }
-
-    .modal-content button {
-      padding: 8px 15px;
-      margin-right: 10px;
-    }
+  
   </style>
 </head>
 <body>
@@ -61,8 +34,11 @@ if (!isset($_SESSION["user"])) {
   <div class="form-section">
     <h3>Upload Image and PDF</h3>
     <form action="upload.php" method="POST" enctype="multipart/form-data">
-      <label>Image File:</label>
-      <input type="file" name="image" accept=".png,.jpg,.jpeg" required><br><br>
+    <label><strong>Image File:</strong></label><br>
+<small style="color: gray;">Only .png, .jpg, .jpeg images are allowed.</small><br>
+<input type="file" name="image" accept=".png,.jpg,.jpeg" required onchange="previewImage(event)">
+
+
 
       <label>PDF File:</label>
       <input type="file" name="pdf" accept=".pdf" required><br><br>
@@ -128,6 +104,23 @@ if (!isset($_SESSION["user"])) {
   });
 </script>
 
+<script>
+  function openPasswordModal() {
+  const modal = document.getElementById('passwordModal');
+  modal.style.display = 'flex';
+  setTimeout(() => modal.classList.add('show'), 10);
+}
+
+function closePasswordModal() {
+  const modal = document.getElementById('passwordModal');
+  modal.classList.remove('show');
+  setTimeout(() => modal.style.display = 'none', 300);
+}
+</script>
+
+
+
+<!-- jab image of pdf upload hn jian -->
 <?php if (isset($_GET['upload']) && $_GET['upload'] == 'success') : ?>
 <script>
   Swal.fire({
@@ -135,9 +128,17 @@ if (!isset($_SESSION["user"])) {
     title: 'Upload Successful!',
     text: 'Your image and PDF were submitted successfully. Thank you for uploading!',
     confirmButtonColor: '#3085d6'
+  }).then(() => {
+    // Remove the upload=success from URL without reloading
+    if (window.history.replaceState) {
+      const url = new URL(window.location);
+      url.searchParams.delete('upload');
+      window.history.replaceState({}, document.title, url);
+    }
   });
 </script>
 <?php endif; ?>
+
 
 </body>
 </html>
