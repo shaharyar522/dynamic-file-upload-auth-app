@@ -3,7 +3,6 @@ if (session_status() === PHP_SESSION_NONE) {
   session_start();
 }
 
-// Check if user is logged in
 if (!isset($_SESSION["user"])) {
   echo "Unauthorized access!";
   exit;
@@ -11,25 +10,36 @@ if (!isset($_SESSION["user"])) {
 
 $email = is_array($_SESSION["user"]) ? $_SESSION["user"]["email"] : $_SESSION["user"];
 
-// Connect to database
 $conn = new mysqli("localhost", "root", "", "tickting");
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-// Check if new password is submitted
-if (isset($_POST['new_password']) && !empty($_POST['new_password'])) {
+if (isset($_POST['old_password'], $_POST['new_password'])) {
+  $oldPassword = $_POST['old_password'];
   $newPassword = $_POST['new_password'];
 
-  // Store the password directly (plain text version)
-  $sql = "UPDATE log_in SET password='$newPassword' WHERE email='$email'";
-  if ($conn->query($sql)) {
-    echo "Password updated successfully!";
+  $stmt = $conn->prepare("SELECT password FROM log_in WHERE email = ?");
+  $stmt->bind_param("s", $email);
+  $stmt->execute();
+  $stmt->bind_result($dbPassword);
+  $stmt->fetch();
+  $stmt->close();
+
+  if ($dbPassword === $oldPassword) {
+    $update = $conn->prepare("UPDATE log_in SET password = ? WHERE email = ?");
+    $update->bind_param("ss", $newPassword, $email);
+    if ($update->execute()) {
+      echo "success";
+    } else {
+      echo "Failed to update password!";
+    }
+    $update->close();
   } else {
-    echo "Failed to update password!";
+    echo "Old password is incorrect!";
   }
 } else {
-  echo "Please enter a new password.";
+  echo "Please provide old and new passwords!";
 }
 
 $conn->close();

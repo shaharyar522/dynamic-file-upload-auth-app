@@ -56,10 +56,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <input type="password" name="password" required placeholder=" " />
       <label>Password</label>
     </div>
-    <div class="forget">
-      <label><input type="checkbox" name="remember" />Remember me</label>
-      <a href="forgot_password.php">Forgot password?</a>
-    </div>
     <button type="submit">Login</button>
   </form>
 </div>

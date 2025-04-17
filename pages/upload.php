@@ -5,7 +5,7 @@ if (!isset($_SESSION["user"])) {
   exit;
 }
 
-$conn = new mysqli("localhost", "root", "", "tickting"); // replace with your DB name
+$conn = new mysqli("localhost", "root", "", "tickting");
 
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
@@ -14,40 +14,52 @@ if ($conn->connect_error) {
 $imagePath = '';
 $pdfPath = '';
 
-// Upload Image
-if (isset($_POST['upload_image']) && isset($_FILES['image'])) {
-  $file = $_FILES['image'];
-  $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
-  $allowed = ['png', 'jpg', 'jpeg'];
+if (isset($_POST['upload_files'])) {
+  // Upload image
+  if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+    $imageFile = $_FILES['image'];
+    $imageExt = strtolower(pathinfo($imageFile['name'], PATHINFO_EXTENSION));
+    $allowedImage = ['png', 'jpg', 'jpeg'];
 
-  if (in_array(strtolower($ext), $allowed)) {
-    $newName = uniqid() . "." . $ext;
-    $path = "../upload/image/" . $newName;
-    move_uploaded_file($file['tmp_name'], $path);
-    $imagePath = "upload/image/" . $newName;
-
-    $conn->query("INSERT INTO tickts (image_path, pdf_path, status) VALUES ('$imagePath', '', 0)");
-    echo "Image uploaded successfully.";
-  } else {
-    echo "Invalid image file!";
+    if (in_array($imageExt, $allowedImage)) {
+      $imageName = uniqid() . "." . $imageExt;
+      $imageFullPath = "../upload/image/" . $imageName;
+      move_uploaded_file($imageFile['tmp_name'], $imageFullPath);
+      $imagePath = "upload/image/" . $imageName;
+    } else {
+      echo "Invalid image file type!";
+      exit;
+    }
   }
-}
 
-// Upload PDF
-if (isset($_POST['upload_pdf']) && isset($_FILES['pdf'])) {
-  $file = $_FILES['pdf'];
-  $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+  // Upload PDF
+  if (isset($_FILES['pdf']) && $_FILES['pdf']['error'] == 0) {
+    $pdfFile = $_FILES['pdf'];
+    $pdfExt = strtolower(pathinfo($pdfFile['name'], PATHINFO_EXTENSION));
 
-  if (strtolower($ext) === 'pdf') {
-    $newName = uniqid() . ".pdf";
-    $path = "../upload/pdf/" . $newName;
-    move_uploaded_file($file['tmp_name'], $path);
-    $pdfPath = "upload/pdf/" . $newName;
+    if ($pdfExt === 'pdf') {
+      $pdfName = uniqid() . ".pdf";
+      $pdfFullPath = "../upload/pdf/" . $pdfName;
+      move_uploaded_file($pdfFile['tmp_name'], $pdfFullPath);
+      $pdfPath = "upload/pdf/" . $pdfName;
+    } else {
+      echo "Invalid PDF file type!";
+      exit;
+    }
+  }
 
-    $conn->query("INSERT INTO tickts (image_path, pdf_path, status) VALUES ('', '$pdfPath', 0)");
-    echo "PDF uploaded successfully.";
+  // Insert into database
+  if ($imagePath !== '' && $pdfPath !== '') {
+    $stmt = $conn->prepare("INSERT INTO tickts (image_path, pdf_path, status) VALUES (?, ?, 0)");
+    $stmt->bind_param("ss", $imagePath, $pdfPath);
+    $stmt->execute();
+    $stmt->close();
+    
+    // Redirect back to dashboard with success query
+    header("Location: dashboard.php?upload=success");
+    exit;
   } else {
-    echo "Invalid PDF file!";
+    echo "Both image and PDF files are required.";
   }
 }
 ?>
