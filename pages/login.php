@@ -107,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       Swal.showLoading();
     }
   }).then(() => {
-    window.location.href = '/p6/pages/dashboard.php';
+    window.location.href = '/tickting/pages/dashboard.php';
   });
 </script>
 <?php endif; ?>
