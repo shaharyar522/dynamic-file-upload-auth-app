@@ -98,8 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <script>
   Swal.fire({
     icon: 'success',
-    title: 'Welcome Back!',
-    text: 'Your account has been successfully logged in. Redirecting to your dashboard...',
+    text: 'Your account has been successfully logged in Please Wait...',
     timer: 2500,
     showConfirmButton: false,
     allowOutsideClick: false,
@@ -111,6 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   });
 </script>
 <?php endif; ?>
+
 
 
 </body>

@@ -12,8 +12,6 @@ if (!isset($_SESSION["user"])) {
   <title>Ticketing Dashboard</title>
   <link rel="stylesheet" href="../css/dashboard.css">
   <link rel="stylesheet" href="../css/update_password.css">
-  <link rel="stylesheet" href="../css/navbar.css">
-
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
@@ -22,43 +20,129 @@ if (!isset($_SESSION["user"])) {
 </head>
 <body>
 
-<nav class="navbar">
-        <div class="navbar-brand">
-            <h1>Ticketing Dashboard</h1>
-            <div class="nav-item">
-                <a href="#" class="nav-link">Tickets Detail</a>
-                <div class="dropdown-menu">
-                    <a href="complete_tickets.php" class="dropdown-item">Complete Tickets</a>
-                    <a href="#" class="dropdown-item">Pending Tickets</a>
-                </div>
-            </div>
-        </div>
-        <div class="btn-group">
-            <button class="btn btn-outline" onclick="openPasswordModal()">Update Password</button>
-            <button class="btn btn-danger" onclick="window.location.href='logout.php'">Logout</button>
-        </div>
-    </nav>
+<!-- Navbar -->
+<div class="navbar">
+  <!-- Left side: Title -->
+  <div class="navbar-left">
+    <h1>Ticketing Dashboard</h1>
 
-    <script>
-        function openPasswordModal() {
-            // Modal logic here
-        }
-    </script>
+    <!-- Dropdown -->
+    <div class="dropdown">
+      <button class="dropbtn">Tickets Details</button>
+      <div class="dropdown-content">
+        <a href="complete_tickets.php">Complete Tickets</a>
+        <a href="pending_tickets.php">Pending Tickets</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right side: Buttons -->
+  <div class="navbar-right">
+    <button onclick="openPasswordModal()">Update Password</button>
+    <button onclick="window.location.href='logout.php'">Logout</button>
+  </div>
+</div>
+
+<!-- Styles -->
+<style>
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1f2937;
+    padding: 12px 20px;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .navbar-left {
+    display: flex;
+    align-items: center;
+  }
+
+  .navbar-left h1 {
+    font-size: 24px;
+    margin-right: 30px;
+  }
+
+  .navbar-right button {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    margin-left: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .navbar-right button:hover {
+    background-color: #2563eb;
+  }
+
+  /* Dropdown */
+  .dropdown {
+    position: relative;
+  }
+
+  .dropbtn {
+    background-color: #4b5563;
+    color: white;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .dropbtn:hover {
+    background-color: #374151;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #374151;
+    min-width: 180px;
+    top: 40px;
+    left: 0;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+  }
+
+  .dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.2s ease;
+  }
+
+  .dropdown-content a:hover {
+    background-color: #1f2937;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+</style>
+
 
 
 <div class="container">
   <h2>Welcome to Ticketing Application Software as a Service</h2>
 
   <div class="form-section">
-    <h3>Upload Image </h3>
+    <h3>Upload Image and PDF</h3>
     <form action="upload.php" method="POST" enctype="multipart/form-data">
       <label><strong>Image File:</strong></label><br>
       <small style="color: gray;">Only .png, .jpg, .jpeg images are allowed.</small><br>
       <input type="file" name="image[]" accept=".png,.jpg,.jpeg" multiple>
       
-      <!-- pdf ko remove kya hnva hain or databse main path none hngi  -->
-      <!-- <label>PDF File:</label>
-      <input type="file" name="pdf" accept=".pdf"><br><br> -->
+      <label>PDF File:</label>
+      <input type="file" name="pdf" accept=".pdf"><br><br>
 
       <button type="submit" name="upload_files">Upload</button>
     </form>
@@ -174,24 +258,6 @@ function closePasswordModal() {
   });
 </script>
 <?php endif; ?>
-<!-- jab koe person without button per click karay ga then us ko uay message show hnga  -->
-
-<script>
-  // Form validation for image upload
-  document.querySelector('form[action="upload.php"]').addEventListener('submit', function (e) {
-    const imageInput = document.querySelector('input[name="image[]"]');
-    if (!imageInput.files.length) {
-      e.preventDefault(); // Stop form submission
-      Swal.fire({
-        icon: 'error',
-        title: 'No Files Selected!',
-       
-        confirmButtonColor: '#d33'
-      });
-    }
-  });
-</script>
-
 
 
 </body>

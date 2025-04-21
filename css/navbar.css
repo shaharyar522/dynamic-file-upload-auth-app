@@ -1,0 +1,137 @@
+:root {
+    --primary-color: #4361ee;
+    --secondary-color: #3f37c9;
+    --danger-color: #f72585;
+    --danger-hover: #e5177e;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+    --primary: #4361ee;
+    --primary-dark: #3a0ca3;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+h1 {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.nav-item {
+    position: relative;
+}
+
+.nav-link {
+    color: var(--dark-color);
+    text-decoration: none;
+    padding: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+    color: var(--primary-color);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-radius: 6px;
+    min-width: 180px;
+    display: none;
+    overflow: hidden;
+    z-index: 100;
+}
+
+.nav-item:hover .dropdown-menu {
+    display: block;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.dropdown-item {
+    display: block;
+    padding: 0.75rem 1.25rem;
+    color: var(--dark-color);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background: rgba(67, 97, 238, 0.08);
+    color: var(--primary-color);
+    padding-left: 1.5rem;
+}
+
+.btn-group {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn {
+    padding: 0.65rem 1.25rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-outline:hover {
+    background: rgba(67, 97, 238, 0.08);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(67, 97, 238, 0.2);
+}
+
+.btn-danger {
+    background-color: var(--primary);
+    color: white;
+   
+    box-shadow: 0 2px 6px rgba(58, 12, 163, 0.4);
+}
+
+.btn-danger:hover {
+    background: var(--primary-dark); /* Changed to use primary-dark on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(58, 12, 163, 0.4); /* Updated shadow color to match */
+}
+
+.btn-danger:active {
+    background: var(--primary-dark); /* Changed to use primary-dark when pressed */
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(58, 12, 163, 0.3); /* Updated shadow color to match */
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
