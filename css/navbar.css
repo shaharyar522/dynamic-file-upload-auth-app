@@ -114,16 +114,16 @@ h1 {
 }
 
 .btn-danger {
-    background-color: var(--primary);
+ 
+    background-color: #E23D28;
     color: white;
-   
-    box-shadow: 0 2px 6px rgba(58, 12, 163, 0.4);
+    border: none;
 }
 
 .btn-danger:hover {
-    background: var(--primary-dark); /* Changed to use primary-dark on hover */
+    background-color: #c0392b; /* Slightly darker red for hover */
+    color: white;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(58, 12, 163, 0.4); /* Updated shadow color to match */
 }
 
 .btn-danger:active {

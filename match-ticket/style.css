@@ -1,0 +1,43 @@
+*{  padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    /* background: #fff; */
+  }
+  .head-text p{
+    background-color: #c00;
+    padding:10px 0px 10px 0px;
+  }
+  
+  .ticket-container {
+    background: white;
+    padding: 0px 20px 0px 20px ;
+  }
+  
+  .ticket-container {
+    border: 1px solid #ddd;
+  }
+  .qr-code {
+    max-width: 150px;
+    margin: 0 auto;
+  }
+  .details-box ,.details-heading {
+    background: #c00 !important;
+    border: none !important;
+    padding: 15px;
+    padding: 20px;
+  }
+  .match-info-main{
+    background-color: white;
+  }
+  .details-box span {
+    font-weight: bold;
+  }
+  .map-section img {
+   width: 900px !important;
+  }
+  .footer-note {
+    font-size: 14px;
+  }
+
+  

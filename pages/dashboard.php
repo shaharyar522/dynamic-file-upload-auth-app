@@ -21,7 +21,6 @@ if (!isset($_SESSION["user"])) {
   </style>
 </head>
 <body>
-
 <nav class="navbar">
         <div class="navbar-brand">
             <h1>Ticketing Dashboard</h1>
@@ -29,7 +28,7 @@ if (!isset($_SESSION["user"])) {
                 <a href="#" class="nav-link">Tickets Detail</a>
                 <div class="dropdown-menu">
                     <a href="complete_tickets.php" class="dropdown-item">Complete Tickets</a>
-                    <a href="#" class="dropdown-item">Pending Tickets</a>
+                    <a href="pending_tickets.php" class="dropdown-item">Pending Tickets</a>
                 </div>
             </div>
         </div>
@@ -159,7 +158,7 @@ function closePasswordModal() {
 
 
 
-  
+
   
 </script>
 
