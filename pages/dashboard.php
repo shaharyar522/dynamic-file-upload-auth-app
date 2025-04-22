@@ -157,6 +157,9 @@ function closePasswordModal() {
 
 
 
+
+
+  
   
 </script>
 
@@ -164,16 +167,31 @@ function closePasswordModal() {
 <?php if (isset($_GET['upload'])) : ?>
 <script>
   Swal.fire({
-    icon: 'success',
-    title: 'Uploaded successfully!',
-    confirmButtonColor: '#3085d6'
-  }).then(() => {
-    const url = new URL(window.location);
-    url.searchParams.delete('upload');
-    window.history.replaceState({}, document.title, url);
+    title: 'Uploading...',
+    text: 'Please wait while we upload your files.',
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    didOpen: () => {
+      Swal.showLoading(); // Show loader
+    }
   });
+
+  // Simulate a short delay, then show success alert
+  setTimeout(() => {
+    Swal.fire({
+      icon: 'success',
+      title: 'Uploaded successfully!',
+      confirmButtonColor: '#3085d6'
+    }).then(() => {
+      // Remove upload param from URL
+      const url = new URL(window.location);
+      url.searchParams.delete('upload');
+      window.history.replaceState({}, document.title, url);
+    });
+  }, 1500); // 1.5 second delay before success
 </script>
 <?php endif; ?>
+
 <!-- jab koe person without button per click karay ga then us ko uay message show hnga  -->
 
 <script>

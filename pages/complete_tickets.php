@@ -41,7 +41,7 @@ $result = $conn->query($sql);
                 </thead>
                 <tbody>
                     <?php
-                      $id = 1;
+                    $id = 1;
                     while ($row = $result->fetch_assoc()): ?>
                         <tr>
                             <td>
@@ -54,12 +54,13 @@ $result = $conn->query($sql);
                             </td>
                             <td>
                                 <div class="action-buttons">
-                                    <a href="edit_ticket.php?id=<?= $row['id'] ?>" class="btn btn-edit">
+                                    <!-- <a href="edit_ticket.php?id=<?= $row['id'] ?>" class="btn btn-edit">
                                         <i class="fas fa-edit me-1"></i> Edit
-                                    </a>
-                                    <a href="delete_ticket.php?id=<?= $row['id'] ?>"  class='delete btn btn-sm btn-danger'>
+                                    </a> -->
+                                    <a href="delete_ticket.php?id=<?= $row['id'] ?>&image=<?= urlencode($row['image_path']) ?>&pdf=<?= urlencode($row['pdf_path']) ?>" class="delete btn btn-sm btn-danger">
                                         <i class="fas fa-trash-alt me-1"></i> Delete
                                     </a>
+
                                 </div>
                             </td>
                         </tr>
@@ -76,7 +77,7 @@ $result = $conn->query($sql);
     </div>
 
     <div class="back-btn" style="text-align:center; margin-top: 30px;">
-  <a href="dashboard.php" style="
+        <a href="dashboard.php" style="
     display: inline-block;
     background-color: #007bff;
     color: #fff;
@@ -86,15 +87,16 @@ $result = $conn->query($sql);
     text-decoration: none;
     transition: background-color 0.3s, transform 0.2s;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  " onmouseover="this.style.backgroundColor='#0056b3'; this.style.transform='scale(1.05)';" 
-     onmouseout="this.style.backgroundColor='#007bff'; this.style.transform='scale(1)';">
-    ← Back to Dashboard
-  </a>
-</div>
+  " onmouseover="this.style.backgroundColor='#0056b3'; this.style.transform='scale(1.05)';"
+            onmouseout="this.style.backgroundColor='#007bff'; this.style.transform='scale(1)';">
+            ← Back to Dashboard
+        </a>
+    </div>
 
 
 
-    
+
+
 
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -137,26 +139,51 @@ $result = $conn->query($sql);
     </script>
 
 
-<!-- uay hamray pass jab recod delet hn jain ga  -->
-
-<?php if (isset($_GET['deleted']) && $_GET['deleted'] == 1): ?>
+    <!-- uay hamray pass jab recod delet hn jain ga  -->
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    const deleteButtons = document.querySelectorAll(".delete");
+
+    deleteButtons.forEach(button => {
+        button.addEventListener("click", function (e) {
+            e.preventDefault();
+            const href = this.getAttribute("href");
+
+            Swal.fire({
+                title: 'Are you sure you want to  delete this record?',
+                text: "This action cannot be undone!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = href + "&confirmed=1";
+                }
+            });
+        });
+    });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('deleted') === '1') {
         Swal.fire({
             icon: 'success',
             title: 'Deleted!',
-            text: 'Your record has been deleted successfully.',
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: 'OK'
+            text: 'The record has been successfully Deleted.',
+            confirmButtonColor: '#3085d6'
         }).then(() => {
-            // Remove ?deleted=1 from the URL without reloading the page
-            if (window.history.replaceState) {
-                const url = new URL(window.location);
-                url.searchParams.delete('deleted');
-                window.history.replaceState(null, null, url);
-            }
+            const url = new URL(window.location);
+            url.searchParams.delete('deleted');
+            window.history.replaceState(null, null, url);
         });
+    }
+});
+
     </script>
-<?php endif; ?>
+
+
 
 
 </body>
