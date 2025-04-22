@@ -75,6 +75,24 @@ $result = $conn->query($sql);
         <?php endif; ?>
     </div>
 
+    <div class="back-btn" style="text-align:center; margin-top: 30px;">
+  <a href="dashboard.php" style="
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  " onmouseover="this.style.backgroundColor='#0056b3'; this.style.transform='scale(1.05)';" 
+     onmouseout="this.style.backgroundColor='#007bff'; this.style.transform='scale(1)';">
+    ← Back to Dashboard
+  </a>
+</div>
+
+
 
     
 
