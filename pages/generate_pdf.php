@@ -3,15 +3,18 @@
 require 'vendor/autoload.php'; // Dompdf or use Composer autoload
 
 use Dompdf\Dompdf;
+use Dompdf\FrameDecorator\Inline;
 use Dompdf\Options;
 
 $imgPath = 'http://localhost/tickting/pages/';
 
 // DB connection
-$conn = new mysqli("localhost", "root", "", "tickting");
-if ($conn->connect_error) {
-  die(json_encode(['status' => 'error', 'message' => 'Database connection failed']));
-}
+// $conn = new mysqli("localhost", "root", "", "tickting");
+// if ($conn->connect_error) {
+//   die(json_encode(['status' => 'error', 'message' => 'Database connection failed']));
+// }
+
+include('conn.php');
 
 // Check and sanitize input
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {

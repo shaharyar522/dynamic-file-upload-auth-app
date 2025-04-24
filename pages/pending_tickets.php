@@ -40,7 +40,7 @@ $total_pages = ceil($total_records / $limit);
     <link rel="stylesheet" href="../css/pending_Tickets.css">
     <link rel="stylesheet" href="../css/modal.css">
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <style>
         .ticket-img {
             max-width: 100px;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 24, 2025 at 08:41 AM
+-- Generation Time: Apr 24, 2025 at 12:34 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -54,6 +54,8 @@ CREATE TABLE `tickts` (
   `id` int(11) NOT NULL,
   `image_path` varchar(255) DEFAULT NULL,
   `pdf_path` varchar(255) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `badge_id` varchar(100) DEFAULT NULL,
   `status` int(11) DEFAULT 1,
   `qr_code` varchar(255) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
@@ -69,10 +71,12 @@ CREATE TABLE `tickts` (
 -- Dumping data for table `tickts`
 --
 
-INSERT INTO `tickts` (`id`, `image_path`, `pdf_path`, `status`, `qr_code`, `title`, `timestamp`, `name`, `entrance`, `section`, `row`, `seat`) VALUES
-(1, 'upload/image/6808d7336072f.jpeg', 'upload/pdf/1.pdf', 1, '11040063006005880143131825', 'Manchester United v Olympique Lyonnais', '17/04/2025 20:00', 'Paul Moorley', 'N44', 'N4401 m', '12', '225'),
-(2, 'upload/image/6808ddc8dae43.jpeg', 'upload/pdf/2.pdf', 1, '11040063006005880143131825', 'Manchester United v Olympique Lyonnais', '17/04/2025 20:00', 'Paul Moorley', 'N44', 'N4401 m', '12', '225'),
-(3, 'upload/image/6808faba0fbde.jpeg', 'upload/pdf/3.pdf', 1, '11040063003005880191919518', 'Manchester United v Olympique Lyonnais', '17/04/2025 20:00', 'Connor Jones', 'N44', 'N4401 - .', '12', '222');
+INSERT INTO `tickts` (`id`, `image_path`, `pdf_path`, `date`, `badge_id`, `status`, `qr_code`, `title`, `timestamp`, `name`, `entrance`, `section`, `row`, `seat`) VALUES
+(1, 'upload/image/6809fdee79a0b.jpeg', NULL, '2025-04-25', '2', 1, '11040063003005880191919518', 'Manchester United v Olympique Lyonnais', '17/04/2025 20:00', 'Connor Jones', 'N44', 'N4401 - .', '12', '222'),
+(3, 'upload/image/680a0b6e38e1a.jpeg', '1', '2025-04-25', '2', 1, '11040063006005880143131825', 'Manchester United v Olympique Lyonnais', '17/04/2025 20:00', 'Paul Moorley', 'N44', 'N4401 m', '12', '225'),
+(4, 'upload/image/680a0b6e39283.jpeg', '1', '2025-04-24', '1', 1, '11040063006005880143131825', 'Manchester United v Olympique Lyonnais', '17/04/2025 20:00', 'Paul Moorley', 'N44', 'N4401 m', '12', '225'),
+(6, 'upload/image/680a1345b03a4.jpeg', NULL, NULL, NULL, 1, '11040063003005880191919518', 'Manchester United v Olympique Lyonnais', '17/04/2025 20:00', 'Connor Jones', 'N44', 'N4401 - .', '12', '222'),
+(7, 'upload/image/680a13ac7ca11.jpeg', NULL, NULL, NULL, 1, '11040063002005880138982295', 'Manchester United v Olympique Lyonnais', '17/04/2025 20:00', 'owen elliott', 'N44', 'N4401 e', '12', '221');
 
 --
 -- Indexes for dumped tables
@@ -105,7 +109,7 @@ ALTER TABLE `log_in`
 -- AUTO_INCREMENT for table `tickts`
 --
 ALTER TABLE `tickts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

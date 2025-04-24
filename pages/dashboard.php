@@ -4,6 +4,8 @@ if (!isset($_SESSION["user"])) {
   header("Location: login.php");
   exit;
 }
+
+include('conn.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">

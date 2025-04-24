@@ -5,10 +5,12 @@ if (!isset($_SESSION["user"])) {
   exit;
 }
 
-$conn = new mysqli("localhost", "root", "", "tickting");
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+// $conn = new mysqli("localhost", "root", "", "tickting");
+// if ($conn->connect_error) {
+//   die("Connection failed: " . $conn->connect_error);
+// }
+
+include('conn.php');
 
 $pdfPath = null;
 $imagePaths = [];
