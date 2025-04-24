@@ -2,7 +2,7 @@
 include("conn.php");
 
 // Pagination setup
-$limit = 5; // Records per page
+$limit = 1; // Records per page
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
 
@@ -33,7 +33,7 @@ $total_pages = ceil($total_records / $limit);
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="../css/navbar.css">
-    <link rel="stylesheet" href="../css/pending_Tickets.css">
+ 
     <style>
         .ticket-img {
             max-width: 100px;
@@ -164,8 +164,6 @@ $total_pages = ceil($total_records / $limit);
             paging: false,
             responsive: true,
             language: {
-                search: "_INPUT_",
-                searchPlaceholder: "Search tickets...",
                 lengthMenu: "Show _MENU_ tickets per page",
                 info: "Showing _START_ to _END_ of _TOTAL_ tickets",
                 infoEmpty: "No tickets available",
@@ -177,10 +175,11 @@ $total_pages = ceil($total_records / $limit);
                     previous: "Previous"
                 }
             },
-            dom: '<"top"lf>rt<"bottom"ip>'
+            dom: '<"top"l>rt<"bottom"ip>' // removed "f"
         });
     });
 </script>
+
 
 <!-- Delete Confirmation  message agr wo delete hnva kya to us ko uay message show-->
 <script>

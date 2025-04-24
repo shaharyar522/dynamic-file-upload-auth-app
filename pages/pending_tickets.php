@@ -1,4 +1,5 @@
 <?php
+
 include("conn.php");
 
 // Pagination setup
@@ -22,7 +23,7 @@ $total_pages = ceil($total_records / $limit);
 
 <head>
     <meta charset="UTF-8">
-    <title>Complete Tickets</title>
+    <title>Pending Tickets</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -103,8 +104,21 @@ $total_pages = ceil($total_records / $limit);
 
     <!-- Pendin ticking details  -->
     <div class="container">
-        <div class="header-p">
-            <h3>Pending Tickets Details</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="header-p">
+                    <h3>Pending Tickets Details</h3>
+                </div>
+
+            </div>
+            <div class="col-md-6 d-flex justify-content-end">
+                <button id="generateAll" class="btn btn-primary d-flex align-items-center" style="height: 50px;">
+                    <span id="generateAllSpinner" class="spinner-border spinner-border-sm me-2 d-none" role="status"></span>
+                    <span id="generateAllText">Generate All</span>
+                </button>
+
+
+            </div>
         </div>
 
         <?php if ($result->num_rows > 0): ?>
@@ -120,19 +134,22 @@ $total_pages = ceil($total_records / $limit);
                     <?php while ($row = $result->fetch_assoc()): ?>
                         <tr>
                             <td>
-                                <img src="<?= htmlspecialchars($row['image_path']) ?>" alt="Ticket Image" class="ticket-img" onclick="showImageModal(this.src)" style="cursor: pointer;">
+                                <img src="../<?= htmlspecialchars($row['image_path']) ?>" alt="Ticket Image" class="ticket-img" onclick="showImageModal(this.src)" style="cursor: pointer;">
 
 
                             </td>
                             <td>
-                                <a href="pdf.php?id=<?= $row['id'] ?>" class="btn btn-download generate-pdf-btn">
+
+                                <button data-id="<?= $row['id'] ?>" onclick="ajax_call(this);" class="btn btn-download generate_pdf">
                                     <i class="fas fa-file-pdf me-1"></i> Generate PDF
-                                </a>
-                               
+                                </button>
+
+
+
 
                             </td>
                             <td>
-                                <a href="delete_tiFcket.php?id=<?= $row['id'] ?>&image=<?= urlencode($row['image_path']) ?>&pdf=<?= urlencode($row['pdf_path']) ?>" class="delete btn btn-sm btn-danger">
+                                <a href="delete_ticket.php?id=<?= $row['id'] ?>&image=<?= urlencode($row['image_path']) ?>&pdf=<?= urlencode($row['pdf_path']) ?>" class="delete btn btn-sm btn-danger">
                                     <i class="fas fa-trash-alt me-1"></i> Delete
                                 </a>
                             </td>
@@ -186,6 +203,7 @@ $total_pages = ceil($total_records / $limit);
     <script src="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
     <!-- Font Awesome -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Disable DataTables Pagination -->
     <script>
@@ -295,7 +313,93 @@ $total_pages = ceil($total_records / $limit);
         }
     </script>
 
-   
+
+
+    <script>
+        function ajax_call(d) {
+            const button = $(d);
+            const ticketId = button.data('id');
+
+            // Save original button HTML to restore later
+            const originalHTML = button.html();
+
+            // Add spinner to button
+            button.html(`<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Generating...`);
+            button.prop('disabled', true); // Optional: disable button while loading
+
+            $.ajax({
+                url: 'generate_pdf.php',
+                method: 'POST',
+                data: {
+                    id: ticketId
+                },
+                success: function(response) {
+                    console.log(response);
+                    Swal.fire({
+                        icon: 'success',
+                        text: 'PDF Generated Successfully.',
+                        confirmButtonColor: '#3085d6'
+                    });
+                },
+                error: function() {
+                    Swal.fire({
+                        icon: 'error',
+                        text: 'Error generating PDF.',
+                        confirmButtonColor: '#d33'
+                    });
+                },
+                complete: function() {
+                    // Always restore original button after request
+                    button.html(originalHTML);
+                    button.prop('disabled', false);
+                }
+            });
+        }
+    </script>
+
+
+
+    <script>
+        $('#generateAll').on('click', async function() {
+            const allBtn = $(this);
+            const allSpinner = $('#generateAllSpinner');
+            const allText = $('#generateAllText');
+
+            // Show spinner on "Generate All"
+            allSpinner.removeClass('d-none');
+            allText.text('Generating...');
+
+            const buttons = $('.generate_pdf');
+
+            for (let i = 0; i < buttons.length; i++) {
+                const btn = $(buttons[i]);
+                const ticketId = btn.data('id');
+
+                // Add spinner to current button
+                const originalHTML = btn.html();
+                btn.html('<span class="spinner-border spinner-border-sm me-2" role="status"></span> Generating...');
+                btn.prop('disabled', true);
+
+                // Wait for AJAX to complete
+                await $.ajax({
+                    url: 'generate_pdf.php',
+                    method: 'POST',
+                    data: {
+                        id: ticketId
+                    }
+                });
+
+                // Restore button
+                btn.html(originalHTML);
+                btn.prop('disabled', false);
+            }
+
+            // Restore "Generate All" button
+            allSpinner.addClass('d-none');
+            allText.text('Generate All');
+        });
+    </script>
+
 
 
 
