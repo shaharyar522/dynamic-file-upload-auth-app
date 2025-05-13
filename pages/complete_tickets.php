@@ -2,7 +2,7 @@
 include("conn.php");
 
 // Pagination setup
-$limit = 1; // Records per page
+$limit = 5; // Records per page
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
 
@@ -108,9 +108,22 @@ $total_pages = ceil($total_records / $limit);
 
     <!-- End with navabar -->
     <div class="container">
-        <div class="header">
-            <h2>Complete Tickets Details</h2>
-        </div>
+    <div class="row">
+            <div class="col-md-6">
+                <div class="header-p">
+                    <h3>Complete Tickets Details</h3>
+                </div>
+
+            </div>
+            <div class="col-md-6 d-flex justify-content-end">
+                <button id="downloadAll" class="btn btn-primary d-flex align-items-center" style="height: 50px;">
+                    <span id="downloadAllSpinner" class="spinner-border spinner-border-sm me-2 d-none" role="status"></span>
+                    <span id="downloadAllText" class="header">Download All</span>
+                </button>
+
+
+            </div>
+       
         <!-- Filter Inputs -->
         <div class="row mb-4 align-items-end">
             <div class="col-md-4">
@@ -146,7 +159,7 @@ $total_pages = ceil($total_records / $limit);
 
                             </td>
                             <td>
-                                <a href="upload/pdf/<?= htmlspecialchars($row['pdf_path']) ?>" class="btn btn-download" download>
+                                <a href="<?= htmlspecialchars($row['pdf_path']) ?>" class="btn btn-download" download>
                                     <i class="fas fa-file-pdf me-1"></i> Download PDF
                                 </a>
                             </td>
